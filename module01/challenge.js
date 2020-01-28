@@ -2,29 +2,33 @@ const express = require('express');
 const server = express();
 
 const projects = [];
-let reqsTotal = 0;
+let requests = 0;
 
 server.use(express.json());
-
 server.use((req, res, next) => {
-  reqsTotal++;
-
-  console.log(reqsTotal);
+  logRequests();
 
   return next();
 });
 
-const checkProjectIdExists = (req, res, next) => {
-  const { id } = req.params;
-  const { index } = projects.findIndex(el => el.id === id);
+const checkProjectExists = (req, res, next) => {
+  const index = findProjectIndex(req.params.id);
 
-  if (!index) {
-    return res.status(400).json({ message: 'The project does not exists.' })
-  }
+  if (index === -1)
+    return res.status(400).json({ message: 'The project does not exists.' });
+
+  req.projectIndex = index;
 
   return next();
 };
+const findProjectIndex = id => projects.findIndex(el => el.id === id);
+const logRequests = () => {
+  requests++;
 
+  console.log(`Request number: ${requests}`);
+}
+
+server.get('/projects', (req, res) => res.json(projects));
 server.post('/projects', (req, res) => {
   const { id, title, tasks } = req.body
 
@@ -32,37 +36,18 @@ server.post('/projects', (req, res) => {
 
   return res.send();
 });
-
-server.get('/projects', (req, res) => {
-  return res.json(projects);
-});
-
-server.put('/projects/:id', checkProjectIdExists, (req, res) => {
-  const { id } = req.params;
-  const { title } = req.body;
-
-  const index = projects.findIndex(el => el.id === id);
-
-  projects[index].title = title;
+server.delete('/projects/:id', checkProjectExists, (req, res) => {
+  projects.splice(req.projectIndex, 1);
 
   return res.send();
 });
-
-server.delete('/projects/:id', (req, res) => {
-  const { id } = req.params;
-  const index = projects.findIndex(el => el.id === id);
-
-  projects.splice(index, 1);
+server.put('/projects/:id', checkProjectExists, (req, res) => {
+  projects[req.projectIndex].title = req.body.title;
 
   return res.send();
 });
-
-server.post('/projects/:id/tasks', (req, res) => {
-  const { id } = req.params;
-  const { title } = req.body;
-  const index = projects.findIndex(el => el.id === id);
-
-  projects[index].tasks.push(title);
+server.post('/projects/:id/tasks', checkProjectExists, (req, res) => {
+  projects[req.projectIndex].tasks.push(req.body.title);
 
   return res.send();
 });
