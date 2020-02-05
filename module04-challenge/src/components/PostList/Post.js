@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import './Post.css';
 import Comment from './Comment';
@@ -20,5 +21,21 @@ const Post = ({ author, date, content, comments }) => (
     )}
   </section>
 )
+
+Post.propTypes = {
+  author: PropTypes.shape({
+    name: PropTypes.string,
+    avatar: PropTypes.img
+  }),
+  date: PropTypes.string,
+  content: PropTypes.string,
+  comments: PropTypes.arrayOf(PropTypes.shape({
+    author: PropTypes.shape({
+      name: PropTypes.string,
+      avatar: PropTypes.img
+    }),
+    content: PropTypes.string
+  }))
+}
 
 export default Post;
