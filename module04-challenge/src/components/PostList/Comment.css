@@ -1,0 +1,25 @@
+.post__comments__comment {
+  display: flex;
+  list-style: none;
+}
+
+.post__comments__comment img,
+.post__comments__comment p {
+  display: inline-flex;
+}
+
+.post__comments__comment img {
+  max-height: 50px;
+}
+
+.post__comments__comment p {
+  background: #eee;
+  border-radius: 20px;
+  font-size: 16px;
+  margin: 0;
+  padding: 15px;
+}
+
+.post__comments__comment p strong {
+  margin-right: 5px;
+}

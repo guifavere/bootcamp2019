@@ -1,0 +1,19 @@
+header {
+  background: #4a90e2;
+  height: 64px;
+  text-align: center;
+}
+
+header h1 {
+  display: none;
+}
+
+header .container {
+  align-items: center;
+  box-sizing: border-box;
+  display: inline-flex;
+  height: 100%;
+  max-width: 1024px;
+  padding: 0 20px;
+  width: 100%;
+}

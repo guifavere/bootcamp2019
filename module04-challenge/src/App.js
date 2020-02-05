@@ -1,5 +1,15 @@
 import React from 'react';
 
-const App = () => <h1>Module 04 challenge</h1>;
+import './App.css';
+
+import Header from './components/Header/index';
+import PostList from './components/PostList/index';
+
+const App = () => (
+  <>
+    <Header />
+    <PostList />
+  </>
+)
 
 export default App;
