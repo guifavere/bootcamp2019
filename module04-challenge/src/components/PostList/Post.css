@@ -2,7 +2,7 @@
   background: #fff;
   border-radius: 4px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.133916);
-  padding: 15px;
+  padding: 20px;
 }
 
 .post .post__author {
@@ -17,7 +17,9 @@
 }
 
 .post .post__author img {
-  max-height: 50px;
+  border-radius: 50%;
+  margin-right: 15px;
+  max-height: 32px;
 }
 
 .post .post__author .post__author__info {
@@ -27,11 +29,13 @@
 .post .post__author h2,
 .post .post__author p {
   display: inline-flex;
-  margin: 0
+  line-height: 1;
+  margin: 0;
 }
 
 .post .post__author h2 {
   font-size: 17px;
+  margin-bottom: 2px;
 }
 
 .post .post__author p {
@@ -46,7 +50,6 @@
 
 .post .post__comments {
   border-top: 1px solid #eee;
-  display: flex;
   margin: 20px 0 0;
   padding: 20px 0 0;
 }

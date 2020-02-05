@@ -1,6 +1,7 @@
 .post-list {
   margin: 20px auto;
   max-width: 700px;
+  padding: 0 15px;
 }
 
 .post-list .post:not(:last-of-type) {
