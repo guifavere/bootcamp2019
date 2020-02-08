@@ -4,14 +4,20 @@ export const Form = styled.form`
   margin-top: 30px;
   display: flex;
   flex-direction: row;
+`;
 
-  input {
-    flex: 1;
-    border: 1px solid #eee;
-    padding: 10px 15px;
-    border-radius: 4px;
-    font-size: 16px;
-  }
+export const InputSearch = styled.input`
+  flex: 1;
+  border: 1px solid #eee;
+  padding: 10px 15px;
+  border-radius: 4px;
+  font-size: 16px;
+
+  ${({ error }) =>
+    error &&
+    css`
+      border-color: red;
+    `}
 `;
 
 const rotate = keyframes`
@@ -24,16 +30,15 @@ const rotate = keyframes`
   }
 `;
 
-export const SubmitButton = styled.button.attrs(props => ({
+export const SubmitButton = styled.button.attrs(({ loading }) => ({
   type: 'submit',
-  disabled: props.loading,
+  disabled: loading,
 }))`
   background: #7159c1;
   border: 0;
   padding: 0 15px;
   margin-left: 10px;
   border-radius: 4px;
-
   display: flex;
   justify-content: center;
   align-items: center;
@@ -43,8 +48,8 @@ export const SubmitButton = styled.button.attrs(props => ({
     opacity: 0.6;
   }
 
-  ${props =>
-    props.loading &&
+  ${({ loading }) =>
+    loading &&
     css`
       svg {
         animation: ${rotate} 2s linear infinite;
