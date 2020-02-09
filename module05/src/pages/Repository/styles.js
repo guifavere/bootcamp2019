@@ -112,3 +112,27 @@ export const StateFilter = styled.select`
   margin-top: 15px;
   width: 100%;
 `;
+
+export const Pagination = styled.div`
+  border-top: 1px solid #eee;
+  display: flex;
+  align-content: center;
+  justify-content: space-between;
+  margin-top: 30px;
+  padding-top: 30px;
+
+  button {
+    background: #7159c1;
+    border: 0;
+    color: #fff;
+    padding: 0 15px;
+    margin-left: 10px;
+    border-radius: 4px;
+    padding: 15px;
+
+    &[disabled] {
+      cursor: not-allowed;
+      opacity: 0.6;
+    }
+  }
+`;
