@@ -101,3 +101,14 @@ export const IssuesList = styled.ul`
     }
   }
 `;
+
+export const StateFilter = styled.select`
+  background: #fff;
+  border: 1px solid #eee;
+  cursor: pointer;
+  padding: 10px 15px;
+  border-radius: 4px;
+  font-size: 16px;
+  margin-top: 15px;
+  width: 100%;
+`;

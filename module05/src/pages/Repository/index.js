@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import api from '../../services/api';
 
 import Container from '../../components/Container';
-import { Loading, Owner, IssuesList } from './styles';
+import { Loading, Owner, IssuesList, StateFilter } from './styles';
 
 export default class Repository extends Component {
   constructor() {
@@ -14,18 +14,20 @@ export default class Repository extends Component {
     this.state = {
       repository: {},
       issues: [],
+      issuesState: 'open',
       loading: true,
     };
   }
 
   async componentDidMount() {
     const { match } = this.props;
+    const { issuesState } = this.state;
     const repoName = decodeURIComponent(match.params.repository);
 
     const [repository, issues] = await Promise.all([
       api.get(`/repos/${repoName}`),
       api.get(`/repos/${repoName}/issues`, {
-        params: { state: 'open', per_page: 5 },
+        params: { state: issuesState, per_page: 5 },
       }),
     ]);
 
@@ -36,12 +38,26 @@ export default class Repository extends Component {
     });
   }
 
-  render() {
-    const { repository, issues, loading } = this.state;
+  handleIssuesStateChange = async e => {
+    const newIssuesState = e.target.value;
+    const { match } = this.props;
+    const repoName = decodeURIComponent(match.params.repository);
 
-    if (loading) {
-      return <Loading>Carregando</Loading>;
-    }
+    const issues = await api.get(`/repos/${repoName}/issues`, {
+      params: { state: newIssuesState, per_page: 5 },
+    });
+
+    this.setState({
+      issues: issues.data,
+      loading: false,
+      issuesState: newIssuesState,
+    });
+  };
+
+  render() {
+    const { repository, issues, loading, issuesState } = this.state;
+
+    if (loading) return <Loading>Carregando</Loading>;
 
     return (
       <Container>
@@ -54,6 +70,15 @@ export default class Repository extends Component {
           />
           <h1>{repository.name}</h1>
           <p>{repository.description}</p>
+          <StateFilter
+            id="status"
+            onChange={this.handleIssuesStateChange}
+            value={issuesState}
+          >
+            <option value="all">Todos</option>
+            <option value="open">Abertos</option>
+            <option value="closed">Fechados</option>
+          </StateFilter>
         </Owner>
         <IssuesList>
           {issues.map(issue => (
