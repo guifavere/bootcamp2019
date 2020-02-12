@@ -1,7 +1,14 @@
 import React from 'react';
-import { SafeAreaView, StyleSheet, ScrollView, StatusBar } from 'react-native';
+import {
+  SafeAreaView,
+  StyleSheet,
+  ScrollView,
+  StatusBar,
+  Text,
+} from 'react-native';
+import './config/ReactotronConfig';
 
-import { Header, Colors } from 'react-native/Libraries/NewAppScreen';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 const styles = StyleSheet.create({
   scrollView: {
@@ -29,7 +36,7 @@ const App = () => {
           contentInsetAdjustmentBehavior="automatic"
           style={styles.scrollView}
         >
-          <Header />
+          <Text>some text</Text>
         </ScrollView>
       </SafeAreaView>
     </>
