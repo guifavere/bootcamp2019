@@ -30,6 +30,7 @@ export default class User extends Component {
       stars: [],
       loading: true,
       page: 1,
+      refreshing: false,
     };
   }
 
@@ -55,9 +56,21 @@ export default class User extends Component {
     this.setState({ stars: [...stars, ...response.data], page: page + 1 });
   };
 
+  refreshList = async () => {
+    this.setState({ refreshing: true });
+
+    const { navigation } = this.props;
+    const user = navigation.getParam('user');
+    const response = await api.get(
+      `/users/${user.login}/starred?page=1&per_page=20`
+    );
+
+    this.setState({ stars: response.data, page: 1, refreshing: false });
+  };
+
   render() {
     const { navigation } = this.props;
-    const { stars, loading } = this.state;
+    const { stars, loading, refreshing } = this.state;
     const user = navigation.getParam('user');
 
     return (
@@ -75,6 +88,8 @@ export default class User extends Component {
             keyExtractor={star => String(star.id)}
             onEndReachedThreshold={0.3}
             onEndReached={this.loadMore}
+            onRefresh={this.refreshList}
+            refreshing={refreshing}
             renderItem={({ item }) => (
               <Starred>
                 <OwnerAvatar source={{ uri: item.owner.avatar_url }} />
